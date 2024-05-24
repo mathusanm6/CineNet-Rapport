@@ -1,0 +1,66 @@
+\section*{Schéma Relationnel}
+
+\begin{itemize}[label={},left=0pt]
+    \item \textbf{UserRoles} (\underline{type}, name, description)
+    \item \textbf{Users} (\underline{id}, last\_name, first\_name, username, email, password\_hashed, birth\_date, role\_type) \\
+    \textcolor{blue}{Users[role\_type] $\subseteq$ UserRoles[type]}
+
+    \item \textbf{Countries} (\underline{country\_code}, name)
+    \item \textbf{Cities} (\underline{city\_code}, country\_code, name) \\
+    \textcolor{blue}{Cities[country\_code] $\subseteq$ Countries[country\_code]}
+    \item \textbf{UserLocation} (\underline{user\_id, city\_code}) \\
+    \textcolor{blue}{UserLocation[user\_id] $\subseteq$ Users[id], UserLocation[city\_code] $\subseteq$ Cities[city\_code]}
+
+    \item \textbf{Friendship} (\underline{initiator\_id, recipient\_id}, date) \\
+    \textcolor{blue}{Friendship[initiator\_id] $\subseteq$ Users[id], Friendship[recipient\_id] $\subseteq$ Users[id]}
+    \item \textbf{Following} (\underline{follower\_id, followed\_id}, date) \\
+    \textcolor{blue}{Following[follower\_id] $\subseteq$ Users[id], Following[followed\_id] $\subseteq$ Users[id]}
+
+    \item \textbf{Categories} (\underline{id}, name, description)
+    
+    \item \textbf{Posts} (\underline{id}, user\_id, date, content, parent\_post\_id, category\_id) \\
+    \textcolor{blue}{Posts[user\_id] $\subseteq$ Users[id], Posts[parent\_post\_id] $\subseteq$ Posts[id], Posts[category\_id] $\subseteq$ Categories[id]}
+    \item \textbf{Tags} (\underline{id}, name)
+    \item \textbf{PostTags} (\underline{tag\_id, post\_id}) \\
+    \textcolor{blue}{PostTags[tag\_id] $\subseteq$ Tags[id], PostTags[post\_id] $\subseteq$ Posts[id]}
+    \item \textbf{Reactions} (\underline{user\_id, post\_id}, emoji\_unicode) \\
+    \textcolor{blue}{Reactions[user\_id] $\subseteq$ Users[id], Reactions[post\_id] $\subseteq$ Posts[id]}
+
+    \item \textbf{Events} (\underline{id}, name, date, city\_code, organizer\_id, capacity, ticket\_price) \\
+    \textcolor{blue}{Events[city\_code] $\subseteq$ Cities[city\_code], Events[organizer\_id] $\subseteq$ Users[id]}
+    \item \textbf{Participation} (\underline{user\_id, event\_id}, type\_participation) \\
+    \textcolor{blue}{Participation[user\_id] $\subseteq$ Users[id], Participation[event\_id] $\subseteq$ Events[id]}
+    
+    \item \textbf{Genres} (\underline{id}, name, parent\_genre\_id) \\
+    \textcolor{blue}{Genres[parent\_genre\_id] $\subseteq$ Genres[id]}
+
+    \item \textbf{Studios} (\underline{id}, name)
+    
+    \item \textbf{Movies} (\underline{id}, title, duration, release\_date)
+    \item \textbf{MovieGenres} (\underline{movie\_id, genre\_id}) \\
+    \textcolor{blue}{MovieGenres[movie\_id] $\subseteq$ Movies[id], MovieGenres[genre\_id] $\subseteq$ Genres[id]}
+    \item \textbf{MovieStudios} (\underline{studio\_id, movie\_id}) \\
+    \textcolor{blue}{MovieStudios[studio\_id] $\subseteq$ Studios[id], MovieStudios[movie\_id] $\subseteq$ Movies[id]}
+
+    \item \textbf{People} (\underline{id}, last\_name, first\_name, birth\_date)
+    \item \textbf{PeopleRoles} (\underline{id}, name)
+    \item \textbf{MovieCollaborators} (\underline{people\_id, movie\_id, role\_id}) \\
+    \textcolor{blue}{MovieCollaborators[people\_id] $\subseteq$ People[id], MovieCollaborators[movie\_id] $\subseteq$ Movies[id], MovieCollaborators[role\_id] $\subseteq$ PeopleRoles[id]}
+    
+    \item \textbf{Screenings} (\underline{event\_id, movie\_id}, screening\_time) \\
+    \textcolor{blue}{Screenings[event\_id] $\subseteq$ Events[id], Screenings[movie\_id] $\subseteq$ Movies[id]}
+
+    \item \textbf{UserEventRatings} (\underline{user\_id, event\_id}, rating) \\
+    \textcolor{blue}{UserEventRatings[user\_id] $\subseteq$ Users[id], UserEventRatings[event\_id] $\subseteq$ Events[id]}
+    \item \textbf{UserMovieRatings} (\underline{user\_id, movie\_id}, rating) \\
+    \textcolor{blue}{UserMovieRatings[user\_id] $\subseteq$ Users[id], UserMovieRatings[movie\_id] $\subseteq$ Movies[id]}
+
+    \item \textbf{MovieRecommendation} (\underline{user\_id, movie\_id}, score\_recommendation) \\
+    \textcolor{blue}{MovieRecommendation[user\_id] $\subseteq$ Users[id], MovieRecommendation[movie\_id] $\subseteq$ Movies[id]}
+    \item \textbf{CompletedEventRecommendation} (\underline{user\_id, event\_id}, score\_recommendation) \\
+    \textcolor{blue}{CompletedEventRecommendation[user\_id] $\subseteq$ Users[id], CompletedEventRecommendation[event\_id] $\subseteq$ Events[id]}
+    \item \textbf{ScheduledEventRecommendation} (\underline{user\_id, event\_id}, score\_recommendation) \\
+    \textcolor{blue}{ScheduledEventRecommendation[user\_id] $\subseteq$ Users[id], ScheduledEventRecommendation[event\_id] $\subseteq$ Events[id]}
+    \item \textbf{PostRecommendation} (\underline{user\_id, post\_id}, score\_recommendation) \\
+    \textcolor{blue}{PostRecommendation[user\_id] $\subseteq$ Users[id], PostRecommendation[post\_id] $\subseteq$ Posts[id]}
+\end{itemize}
