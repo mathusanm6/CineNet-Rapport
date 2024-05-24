@@ -1,0 +1,28 @@
+\subsection{Requête SQL pour le Calcul de la Popularité Moyenne des Utilisateurs Suivi par Pays}
+
+Cette requête SQL implique une sous-requête dans le FROM. Elle sélectionne le nom du pays et la popularité moyenne des utilisateurs suivis par pays.
+\begin{lstlisting}
+SELECT
+    CO.name AS Country_Name,
+    AVG(PopularityScores.Popularity) AS Average_Popularity
+FROM
+    Countries AS CO
+    JOIN (
+        SELECT
+            COUNT(*) AS Popularity,
+            UL.city_code
+        FROM
+            FOLLOWING AS F
+            JOIN Users AS U ON F.followed_id = U.id
+            JOIN UserLocations AS UL ON U.id = UL.user_id
+        GROUP BY
+            UL.city_code) AS PopularityScores ON CO.country_code =(
+        SELECT
+            country_code
+        FROM
+            Cities
+        WHERE
+            city_code = PopularityScores.city_code)
+GROUP BY
+    CO.name;
+\end{lstlisting}

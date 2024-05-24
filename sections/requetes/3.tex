@@ -1,0 +1,24 @@
+\subsection{Requête SQL pour la Récupération des Utilisateurs Suivant un Nombre Minimum d'Utilisateurs}
+
+Cette requête SQL implique une sous-requête corrélée pour récupérer les utilisateurs qui suivent un autre utilisateur. Elle sélectionne le nom d'utilisateur des utilisateurs qui suivent un nombre minimum d'autres utilisateurs. La requête reçoit un paramètre : le nombre minimum d'utilisateurs suivis.
+
+\begin{lstlisting}
+SELECT
+    username,
+(
+        SELECT
+            COUNT(*)
+        FROM
+            FOLLOWING F
+        WHERE
+            F.follower_id = U.id) AS Following_Count
+FROM
+    Users U
+WHERE (
+    SELECT
+        COUNT(*)
+    FROM
+        FOLLOWING F
+    WHERE
+        F.follower_id = U.id) >= :minfollowingcount;
+\end{lstlisting}

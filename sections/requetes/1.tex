@@ -1,0 +1,22 @@
+\subsection{Requête SQL pour la Récupération des Utilisateurs Participant à un Événement Planifié}
+
+Cette requête SQL implique au moins trois tables pour récupérer des événements. Elle sélectionne le nom d'utilisateur des utilisateurs participant à un événement planifié dans une ville et un pays spécifiques où ils sont situés. La requête reçoit deux paramètres : le nom de l'événement et le nom de la ville.
+
+\begin{lstlisting}
+SELECT
+    U.username,
+    E.date
+FROM
+    Users U
+    JOIN UserLocations UL ON U.id = UL.user_id
+    JOIN Cities C ON UL.city_code = C.city_code
+    JOIN Countries CO ON C.country_code = CO.country_code
+    JOIN Participation P ON U.id = P.user_id
+    JOIN Events E ON P.event_id = E.id
+WHERE
+    E.status = 'Scheduled'
+    AND P.type_participation = 'Participating'
+    AND E.name = :eventname
+    AND CO.name = :countryname
+;
+\end{lstlisting}
