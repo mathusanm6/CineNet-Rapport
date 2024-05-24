@@ -1,1 +1,39 @@
-\section*{Les Choix pour la Modélisation}
+\section*{Les Choix et Limites de la Modélisation}
+
+Pour le projet CineNet, nous avons opté pour une base de données centrée exclusivement sur les films, excluant les séries télévisées. Cette décision vise à simplifier la modélisation et la gestion de la base de données. Les films sont des entités relativement simples à modéliser et suffisamment nombreux pour permettre une analyse pertinente. De plus, ils sont des objets culturels très populaires, souvent utilisés comme références dans les discussions sur le cinéma. Nous avons donc choisi de nous concentrer uniquement sur les films pour ce projet.
+
+\subsection*{Table \texttt{UserRoles}}
+
+Bien que la table \texttt{UserRoles} puisse sembler peu intéressante à première vue, elle a été conçue pour permettre des permissions variées selon les différents types d'utilisateurs. Un utilisateur lambda a un rôle moins important qu'un studio de production, par exemple. L'attribut \texttt{permission} permettrait d'implémenter des fonctionnalités plus avancées selon le type d'utilisateur.
+
+\subsection*{Tables \texttt{Cities}, \texttt{Countries} et \texttt{UserLocations}}
+
+Les utilisateurs peuvent indiquer leur ville de résidence, et les tables \texttt{Cities}, \texttt{Countries} et \texttt{UserLocations} facilitent la localisation des utilisateurs. Connaître la ville de résidence permet de créer des requêtes intéressantes, telles que la recherche d'événements ayant lieu dans une ville spécifique.
+
+\subsection*{Table \texttt{Friendships}}
+
+Un utilisateur peut être ami avec un autre, mais une seule direction est créée dans la table \texttt{Friendships}. Cela peut sembler être une limitation, car il faut vérifier les deux sens pour confirmer une amitié. Toutefois, cette approche permet de différencier celui qui a initié la demande et la date de la demande.
+
+\subsection*{Table \texttt{Following}}
+
+Un utilisateur peut suivre un autre utilisateur sans que ce dernier ne le suive en retour, permettant ainsi une asymétrie dans les relations de suivi.
+
+\subsection*{Table \texttt{Categories}}
+
+Les catégories de forums sont limitées au premier niveau, à l'instar des subreddits sur Reddit. Il n'est pas possible d'avoir un sous-forum dans un autre, ce qui simplifie la structure et l'utilisation.
+
+\subsection*{Table \texttt{Posts}}
+
+Une publication est signée par un utilisateur (l'auteur) qui possède un nom d'utilisateur et un mot de passe crypté pour une connexion sécurisée. Une publication peut ou non être une réponse à une autre publication et peut ou non appartenir à une catégorie. Ne pas avoir de catégorie signifie que la publication est générale.
+
+\subsection*{Système de Mots-Clés}
+
+Grâce aux tables \texttt{Tags} et \texttt{PostTags}, il est possible de faire des recherches rapides en utilisant des titres de films, des noms d'acteurs ou des genres cinématographiques comme mots-clés. Les recherches plus avancées, telles que l'affichage des sous-genres pour un genre donné, doivent être effectuées au niveau de l'application en utilisant les tags et en comparant avec la table des genres, puis en récupérant récursivement les sous-genres.
+
+\subsection*{Réactions aux Publications}
+
+Les utilisateurs peuvent réagir aux publications avec des emojis représentant différentes appréciations.
+
+\subsection*{Table \texttt{Events}}
+
+Les utilisateurs peuvent indiquer leur intérêt ou leur participation effective à un événement. Les événements peuvent avoir trois états : \texttt{Scheduled} (Prévu), \texttt{Completed} (Fini), ou \texttt{Cancelled} (Annulé).
