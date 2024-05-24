@@ -1,0 +1,15 @@
+\subsection{Requête SQL pour la Récupération des Utilisateurs Suivant un Utilisateur Spécifique}
+
+Cette requête SQL implique une auto-jointure de la table \texttt{Users} pour récupérer les utilisateurs qui suivent un autre utilisateur. Elle sélectionne le nom d'utilisateur des utilisateurs qui suivent un utilisateur spécifique. La requête reçoit un paramètre : le nom d'utilisateur.
+
+\begin{lstlisting}
+SELECT
+    A.username AS Follower,
+    B.username AS Followed
+FROM
+    Users A
+    JOIN FOLLOWING F ON A.id = F.follower_id
+    JOIN Users B ON F.followed_id = B.id
+WHERE
+    B.username = :username;
+\end{lstlisting}

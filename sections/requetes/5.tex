@@ -1,0 +1,9 @@
+\subsection{Requête SQL pour la Récupération des Utilisateurs Postant Après une Date Spécifique}
+
+Cette requête SQL implique une sous-requête dans le WHERE. Elle sélectionne les nom d'utilisateurs qui ont posté après une date spécifique.
+
+\begin{lstlisting}
+SELECT U.username
+FROM Users U
+WHERE U.id IN (SELECT user_id FROM Posts WHERE date > :date)
+\end{lstlisting}
