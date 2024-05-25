@@ -1,0 +1,26 @@
+\subsection{Requête SQL pour la Récupération des Utilisateurs Ayant Réagi à Toutes les Publications d'un Utilisateur Spécifié}
+
+Cette requête SQL exprime une condition de totalité avec des sous-requêtes corrélées. Elle récupère les utilisateurs qui ont réagi à toutes les publications d'un utilisateur spécifié. Elle utilise une sous-requête corrélée pour vérifier s'il n'y a aucune publication à laquelle l'utilisateur n'a pas réagi.
+
+\begin{lstlisting}
+SELECT DISTINCT
+    R.user_id
+FROM
+    Reactions R
+WHERE
+    NOT EXISTS (
+        SELECT
+            P.id
+        FROM
+            Posts P
+        WHERE
+            P.user_id = :userid
+            AND NOT EXISTS (
+                SELECT
+                    1
+                FROM
+                    Reactions R2
+                WHERE
+                    R2.user_id = R.user_id
+                    AND R2.post_id = P.id));
+\end{lstlisting}

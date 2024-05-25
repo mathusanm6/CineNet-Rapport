@@ -1,0 +1,30 @@
+\subsection{Requête SQL pour Trouver Tous les Sous-genres d'un Genre Parent Spécifié}
+
+Cette requête utilise une CTE récursive pour trouver tous les sous-genres d'un genre parent spécifié. Le résultat inclut l'identifiant du genre, le nom et l'identifiant du genre parent.
+
+\begin{lstlisting}
+WITH RECURSIVE GenresCurrent AS (
+        SELECT
+            id,
+            name,
+            parent_genre_id
+        FROM
+            Genres
+        WHERE
+            id = :pgid
+        UNION ALL
+        SELECT
+            G.id,
+            G.name,
+            G.parent_genre_id
+        FROM
+            Genres G,
+            GenresCurrent GC
+        WHERE
+            GC.id = G.parent_genre_id
+    )
+    SELECT
+        *
+    FROM
+        GenresCurrent;
+\end{lstlisting}

@@ -1,0 +1,20 @@
+\subsection{Requête SQL pour la Récupération des Utilisateurs avec un Type de Participation Spécifique dans des Événements avec un Statut Spécifique}
+
+Cette requête SQL implique au moins une jointure externe. Elle récupère les utilisateurs ayant un type de participation spécifié dans des événements avec un statut spécifique. Elle utilise une jointure LEFT JOIN pour inclure les utilisateurs qui peuvent ne pas avoir de dossiers de participation. La requête joint les tables Users, Participation et Events pour récupérer les informations requises.
+
+\begin{lstlisting}
+SELECT
+    U.username,
+    P.type_participation,
+    E.name
+FROM
+    Users U
+    LEFT JOIN Participation P ON U.id = P.user_id
+        AND P.type_participation = :typeparticipation
+    LEFT JOIN Events E ON P.event_id = E.id
+        AND E.status = :eventstatus
+WHERE
+    U.username IS NOT NULL
+    AND P.type_participation IS NOT NULL
+    AND E.name IS NOT NULL;
+\end{lstlisting}

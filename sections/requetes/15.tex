@@ -1,0 +1,36 @@
+\subsection{Requête SQL pour Récupérer le Prochain Événement Planifié}
+
+Cette requête retourne le prochain événement planifié à partir de la table 'Events'. Elle utilise une CTE récursive pour générer une séquence de dates à partir d'aujourd'hui. La requête joint ensuite cette séquence avec la table 'Events' pour trouver le prochain événement planifié. Le résultat inclut le nom de l'événement, la date et l'heure complètes, ainsi que le statut.
+
+\begin{lstlisting}
+WITH RECURSIVE DateSeq AS (
+        SELECT
+            NOW()::date AS event_date -- Start from today, only the date part
+        UNION ALL
+        SELECT
+            (event_date + INTERVAL '1 day')::date
+        FROM
+            DateSeq
+        WHERE
+            event_date <(
+                SELECT
+                    MAX(date)::date
+                FROM
+                    Events)
+                -- Up to the max date only, ignoring time
+    )
+    SELECT
+        COALESCE(E.name, 'No event scheduled') AS event_name,
+        E.date AS event_full_datetime,
+        E.status
+    FROM
+        DateSeq
+        LEFT JOIN Events E ON DateSeq.event_date = E.date::date -- Compare only the date parts
+    WHERE
+        DateSeq.event_date >= NOW()::date
+        AND E.status = 'Scheduled'
+        AND E.id IS NOT NULL
+    ORDER BY
+        DateSeq.event_date ASC
+    LIMIT 1;
+\end{lstlisting}

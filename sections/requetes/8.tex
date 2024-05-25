@@ -1,0 +1,24 @@
+\subsection{Requête SQL pour le Calcul de la Moyenne du Nombre Maximum de Réactions par Publication}
+
+Cette requête SQL calcule la moyenne du nombre maximum de réactions par publication. La moyenne est calculée en groupant d'abord les réactions par post\_id et en comptant le nombre de réactions par publication. 
+Le nombre maximum de réactions par publication est ensuite calculé en groupant les comptes par post\_id et en prenant le compte maximum. 
+Enfin, la moyenne des réactions maximum par publication est calculée en prenant la moyenne des comptes maximums.
+
+\begin{lstlisting}
+SELECT
+    AVG(Max_Reactions) AS Average_of_Max_Reactions
+FROM (
+    SELECT
+        post_id,
+        MAX(reactions_count) AS Max_Reactions
+    FROM (
+        SELECT
+            post_id,
+            COUNT(*) AS reactions_count
+        FROM
+            Reactions
+        GROUP BY
+            post_id) AS ReactionCounts
+    GROUP BY
+        post_id) AS MaxCounts;
+\end{lstlisting}

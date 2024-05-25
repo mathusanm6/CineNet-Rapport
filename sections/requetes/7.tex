@@ -1,0 +1,20 @@
+\subsection{Requête SQL pour la Récupération du Nombre de Publications par Tag avec Réaction Emoji Spécifique}
+
+Cette requête SQL implique une fonction d'agrégation avec une clause GROUP BY et une clause HAVING. Elle sélectionne le nom du tag et le nombre de publications associées à chaque tag. Elle n'inclut que les tags ayant un nombre de publications supérieur ou égal au nombre minimum de publications spécifié et ayant la réaction emoji spécifiée.
+
+\begin{lstlisting}
+SELECT
+    T.name,
+    COUNT(DISTINCT P.id) AS Post_Count
+FROM
+    Tags T
+    JOIN PostTags PT ON T.id = PT.tag_id
+    JOIN Posts P ON P.id = PT.post_id
+    JOIN Reactions R ON R.post_id = P.id
+WHERE
+    R.emoji = :emoji
+GROUP BY
+    T.name
+HAVING
+    COUNT(DISTINCT P.id) >= :minpostcount;
+\end{lstlisting}

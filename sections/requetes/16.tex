@@ -1,0 +1,22 @@
+\subsection{Requête SQL pour Récupérer les 10 Meilleurs Événements avec le Plus de Participants en une Année Donnée}
+
+Cette requête retourne les 10 événements avec le plus de participants pour une année donnée. Elle utilise une fonction de fenêtre pour classer les événements par le nombre de participants en ordre décroissant. Le résultat inclut le nom de l'événement, la date et le rang. La requête filtre les événements par l'année spécifiée et ordonne les résultats par rang et date.
+
+\begin{lstlisting}
+SELECT DISTINCT
+    E.name,
+    E.date,
+    RANK() OVER (PARTITION BY EXTRACT(MONTH FROM E.date) ORDER BY COUNT(P.user_id) DESC) AS Rank
+FROM
+    Events E
+    JOIN Participation P ON E.id = P.event_id
+GROUP BY
+    E.name,
+    E.date
+HAVING
+    EXTRACT(YEAR FROM E.date) = :year
+ORDER BY
+    Rank ASC,
+    E.date ASC
+LIMIT 10;
+\end{lstlisting}
