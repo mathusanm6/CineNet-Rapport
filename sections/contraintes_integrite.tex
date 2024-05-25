@@ -1,0 +1,98 @@
+\section{Contraintes d'Intégrité}
+
+Les contraintes d'intégrité sont essentielles pour garantir la cohérence, la précision et la fiabilité des données dans la base de données CineNet. Voici les principales contraintes d'intégrité mises en œuvre dans ce projet :
+
+\subsection*{Contraintes de Domaine}
+
+Les contraintes de domaine définissent le type de données des attributs et les valeurs autorisées.
+
+\begin{lstlisting}
+CREATE TABLE Users (
+    birth_date date CONSTRAINT check_birth_date CHECK (birth_date <= CURRENT_DATE)
+);
+\end{lstlisting}
+
+Ici, \texttt{birth\_date} doit être une date antérieure ou égale à la date actuelle.
+
+\subsection*{Contraintes \texttt{NOT NULL}}
+
+Les contraintes \texttt{NOT NULL} imposent que certaines colonnes ne peuvent pas contenir de valeurs \texttt{NULL}, assurant que chaque enregistrement a une valeur pour ces colonnes.
+
+\begin{lstlisting}
+CREATE TABLE Users (
+    last_name varchar(255) NOT NULL,
+    first_name varchar(255) NOT NULL
+);
+\end{lstlisting}
+
+Les colonnes \texttt{last\_name} et \texttt{first\_name} doivent toujours contenir une valeur.
+
+\subsection*{Contraintes de Clé}
+
+Les contraintes de clé garantissent l'unicité des enregistrements et les relations entre les tables.
+
+\subsubsection*{Clés Primaires}
+
+Une clé primaire identifie de manière unique chaque enregistrement dans une table.
+
+\begin{lstlisting}
+CREATE TABLE Events (
+    id INTEGER PRIMARY KEY
+);
+\end{lstlisting}
+
+La colonne \texttt{id} est une clé primaire, identifiant de manière unique chaque événement.
+
+\subsection*{Contraintes de Clés Étrangères}
+
+Les clés étrangères assurent que les valeurs dans une colonne correspondent aux valeurs dans une colonne de la table référencée, garantissant ainsi l'intégrité référentielle entre les tables.
+
+\begin{lstlisting}
+CREATE TABLE Users (
+    role_type integer NOT NULL REFERENCES UserRoles(type)
+);
+\end{lstlisting}
+
+La colonne \texttt{role\_type} doit correspondre à des valeurs existantes dans la table \texttt{UserRoles}.
+
+\subsection*{Contraintes d'Unicité}
+
+Les contraintes d'unicité assurent que les valeurs dans une colonne (ou un ensemble de colonnes) sont uniques parmi tous les enregistrements de la table.
+
+\begin{lstlisting}
+CREATE TABLE Users (
+    email varchar(255) UNIQUE NOT NULL
+);
+\end{lstlisting}
+
+La colonne \texttt{email} doit contenir des valeurs uniques.
+
+\subsection*{Contraintes \texttt{CHECK}}
+
+Les contraintes \texttt{CHECK} permettent de définir des conditions que les valeurs des colonnes doivent respecter.
+
+\begin{lstlisting}
+CREATE TABLE Events (
+    capacity integer NOT NULL CONSTRAINT check_capacity CHECK (capacity > 0)
+);
+\end{lstlisting}
+
+La contrainte \texttt{CHECK} assure que \texttt{capacity} est toujours supérieure à zéro.
+
+\subsection*{Contraintes de Cascade}
+
+Les contraintes de cascade définissent le comportement des actions sur les enregistrements liés lorsque des opérations de mise à jour ou de suppression sont effectuées.
+
+\begin{lstlisting}
+CREATE TABLE Participation (
+    user_id integer NOT NULL REFERENCES Users(id) ON DELETE CASCADE,
+    event_id integer NOT NULL REFERENCES Events(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, event_id)
+);
+\end{lstlisting}
+
+La suppression d'un utilisateur ou d'un événement entraînera la suppression des enregistrements correspondants dans la table \texttt{Participation}.
+
+\section*{Conclusion}
+
+Les contraintes d'intégrité sont cruciales pour garantir la cohérence, l'exactitude et la fiabilité des données dans la base de données CineNet. Elles assurent que les relations entre les tables sont maintenues, que les données respectent les règles métier définies et que les opérations sur les données sont validées en fonction des conditions spécifiées.
