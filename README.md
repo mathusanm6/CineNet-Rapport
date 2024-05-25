@@ -4,6 +4,6 @@
 
 Ce rapport a pour but de présenter le projet CineNet, de décrire les différentes étapes de sa réalisation et de présenter les résultats obtenus.
 
-## Contributors
+## Contributeurs
 - Théo Raoul (@TheoR-H)
 - Mathusan Selvakumar (@mathusanm6)
