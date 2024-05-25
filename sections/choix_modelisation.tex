@@ -1,10 +1,16 @@
 \section{Les Choix et Limites de la Modélisation}
 
-Pour le projet CineNet, nous avons opté pour une base de données centrée exclusivement sur les films, excluant les séries télévisées. Cette décision vise à simplifier la modélisation et la gestion de la base de données. Les films sont des entités relativement simples à modéliser et suffisamment nombreux pour permettre une analyse pertinente. De plus, ils sont des objets culturels très populaires, souvent utilisés comme références dans les discussions sur le cinéma. Nous avons donc choisi de nous concentrer uniquement sur les films pour ce projet.
+Pour le projet CineNet, nous avons opté pour une base de données centrée exclusivement sur les films, excluant les séries télévisées. 
+Cette décision vise à simplifier la modélisation et la gestion de la base de données. 
+Les films sont des entités relativement simples à modéliser et suffisamment nombreux pour permettre une analyse pertinente. 
+De plus, ils sont des objets culturels très populaires, souvent utilisés comme références dans les discussions sur le cinéma. 
 
 \subsection*{Table \texttt{UserRoles}}
 
-Bien que la table \texttt{UserRoles} puisse sembler peu intéressante à première vue, elle a été conçue pour permettre des permissions variées selon les différents types d'utilisateurs. Un utilisateur lambda a un rôle moins important qu'un studio de production, par exemple. L'attribut \texttt{permission} permettrait d'implémenter des fonctionnalités plus avancées selon le type d'utilisateur.
+Bien que la table \texttt{UserRoles} puisse sembler peu intéressante à première vue, elle a été conçue pour permettre des 
+permissions variées selon les différents types d'utilisateurs. Un utilisateur lambda a un rôle moins important qu'un studio 
+de production, par exemple. Un nouvel attribut \texttt{permission} permettrait d'implémenter des fonctionnalités plus avancées selon 
+le type d'utilisateur.
 
 \subsection*{Tables \texttt{Cities}, \texttt{Countries} et \texttt{UserLocations}}
 
