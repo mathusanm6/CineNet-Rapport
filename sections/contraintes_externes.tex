@@ -1,0 +1,43 @@
+\section{Contraintes Externes}
+
+Les contraintes externes sont des conditions supplémentaires imposées sur les données pour garantir la cohérence et l'intégrité des informations au sein de la base de données. Voici les principales contraintes externes mises en œuvre dans ce projet, basées sur la modélisation ERD :
+
+\subsection*{Cardinalité}
+
+Les contraintes de cardinalité définissent le nombre minimal et maximal d'occurrences d'une entité pouvant être associée à une occurrence d'une autre entité.
+
+\begin{itemize}
+    \item **Amitié (Friendship)** : Une amitié entre deux utilisateurs doit être unique, et un utilisateur ne peut pas être ami avec lui-même.
+    \item **Participation à un événement (Participation)** : Un utilisateur peut participer ou être intéressé par plusieurs événements, et chaque événement peut avoir plusieurs participants.
+\end{itemize}
+
+\subsection*{Dépendance fonctionnelle}
+
+Les contraintes de dépendance fonctionnelle assurent que certaines colonnes d'une table dépendent uniquement d'autres colonnes de la même table.
+
+\begin{itemize}
+    \item **Genres de films (MovieGenres)** : Chaque genre de film doit être unique, et les sous-genres dépendent des genres principaux.
+\end{itemize}
+
+\subsection*{Contraintes de clé étrangère}
+
+Les contraintes de clé étrangère garantissent que les valeurs d'une colonne dans une table existent dans une colonne de la table référencée, assurant l'intégrité référentielle.
+
+\begin{itemize}
+    \item **Localisation des utilisateurs (UserLocations)** : Chaque utilisateur doit avoir une ville de résidence qui doit exister dans la table des villes.
+    \item **Organisation des événements (Events)** : Chaque événement doit être organisé par un utilisateur existant et doit se dérouler dans une ville existante.
+\end{itemize}
+
+\subsection*{Contraintes de validité}
+
+Les contraintes de validité assurent que les données respectent certains critères définis pour maintenir leur exactitude.
+
+\begin{itemize}
+    \item **Événements (Events)** : Les capacités des événements doivent être supérieures à zéro et les prix des billets ne peuvent pas être négatifs.
+    \item **Réactions aux publications (Reactions)** : Les utilisateurs peuvent réagir aux publications avec des emojis spécifiques représentant différentes appréciations.
+\end{itemize}
+
+\section*{Conclusion}
+
+Les contraintes externes sont essentielles pour garantir que les données stockées dans la base de données CineNet sont cohérentes et conformes aux règles. Elles permettent de maintenir l'intégrité des relations entre les tables et de garantir la validité des informations.
+
