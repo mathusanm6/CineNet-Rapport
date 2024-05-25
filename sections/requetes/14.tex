@@ -1,0 +1,36 @@
+\subsection{Requête SQL pour Récupérer les Identifiants des Publications qui Ne Sont Pas des Réponses à d'Autres Publications}
+\subsubsection{Approche Incorrecte}
+
+Cette requête retourne les identifiants des publications qui ne sont pas des réponses à d'autres publications. En raison des valeurs NULL dans la colonne parent\_post\_id, une approche différente est nécessaire.
+
+\begin{lstlisting}
+SELECT DISTINCT
+    P1.id
+FROM
+    Posts P1
+WHERE
+    P1.id NOT IN (
+        SELECT
+            P2. parent_post_id
+        FROM
+            Posts P2);
+\end{lstlisting}
+
+\subsubsection{Approche Correcte}
+
+La solution consiste à utiliser une sous-requête pour filtrer les valeurs parent\_post\_id qui ne sont pas NULL.
+
+\begin{lstlisting}
+SELECT DISTINCT
+    P1.id
+FROM
+    Posts P1
+WHERE
+    P1.id NOT IN (
+        SELECT
+            P2. parent_post_id
+        FROM
+            Posts P2
+        WHERE
+            P2. parent_post_id IS NOT NULL);
+\end{lstlisting}

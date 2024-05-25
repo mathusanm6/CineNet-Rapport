@@ -1,0 +1,17 @@
+\subsection{Requête SQL pour la Récupération du Nombre d'Utilisateurs par Pays}
+
+Cette requête SQL implique une fonction d'agrégation avec une clause GROUP BY et une clause HAVING. Elle sélectionne le nom de chaque pays et le nombre d'utilisateurs dans chaque pays. Elle n'inclut que les pays ayant un nombre d'utilisateurs supérieur ou égal au nombre minimum d'utilisateurs spécifié.
+
+\begin{lstlisting}
+SELECT
+    CO.name,
+    COUNT(*) AS User_Count
+FROM
+    UserLocations UL
+    JOIN Cities C ON UL.city_code = C.city_code
+    JOIN Countries CO ON C.country_code = CO.country_code
+GROUP BY
+    CO.name
+HAVING
+    COUNT(*) >= :minusercount;
+\end{lstlisting}

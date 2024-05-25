@@ -1,0 +1,18 @@
+\subsection{Requête SQL pour Récupérer les Villes Hébergeant au Moins un Événement avec des Films de Plus de 1h30}
+
+Cette requête retourne les villes qui hébergent au moins un événement avec des films de plus de 1h30. Elle calcule la durée moyenne des films projetés dans ces villes. Le résultat inclut le nom de la ville et la durée moyenne des films.
+
+\begin{lstlisting}
+SELECT
+    CI.name AS City_Name,
+    AVG(CAST(M.duration AS real)) AS Average_Duration
+FROM
+    Screenings S
+    JOIN Movies M ON S.movie_id = M.id
+    JOIN Events E ON S.event_id = E.id
+    JOIN Cities CI ON E.city_code = CI.city_code
+WHERE
+    M.duration > 90
+GROUP BY
+    CI.name;
+\end{lstlisting}

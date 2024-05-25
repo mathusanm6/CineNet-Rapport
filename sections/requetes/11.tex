@@ -1,0 +1,23 @@
+\subsection{Requête SQL pour la Récupération des Utilisateurs Ayant Réagi à Toutes les Publications d'un Utilisateur Spécifié avec une Fonction d'Agrégation}
+
+Cette requête SQL exprime une condition de totalité avec une fonction d'agrégation. Elle récupère les utilisateurs qui ont réagi à toutes les publications d'un utilisateur spécifié.
+
+\begin{lstlisting}
+SELECT
+    R.user_id
+FROM
+    Reactions R
+    JOIN Posts P ON R.post_id = P.id
+WHERE
+    P.user_id = :userid
+GROUP BY
+    R.user_id
+HAVING
+    COUNT(DISTINCT P.id) =(
+        SELECT
+            COUNT(*)
+        FROM
+            Posts
+        WHERE
+            user_id = :userid);
+\end{lstlisting}
