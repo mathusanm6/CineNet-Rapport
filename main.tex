@@ -12,7 +12,7 @@
 \usepackage{listings}
 \usepackage{color}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{gray}{rgb}{0,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 \lstset{language=SQL,
   basicstyle={\small\ttfamily},
@@ -23,9 +23,9 @@
   columns=flexible,
   commentstyle=\color{dkgreen},
   framexleftmargin=0.25em,
-  frameshape={}{yy}{}{}, %To remove to vertical lines on left, set `frameshape={}{}{}{}`
+  frameshape={}{yy}{}{}, 
   keywordstyle=\color{blue},
-  numbers=none, %If you want line numbers, set `numbers=left`
+  numbers=none,
   numberstyle=\tiny\color{gray},
   showstringspaces=false,
   stringstyle=\color{mauve},
@@ -46,8 +46,7 @@
 \input{sections/modele_entite_association}
 \input{sections/schema_relationnel}
 \input{sections/choix_modelisation}
-\input{sections/contraintes_integrite} % Ajout de la section des contraintes d'intégrité
-\input{sections/contraintes_externes} % Ajout de la section des contraintes externes
+\input{sections/contraintes}
 \input{sections/requetes}
 \input{sections/recommandations}
 \input{sections/conclusion}
