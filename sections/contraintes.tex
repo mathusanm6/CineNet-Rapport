@@ -1,0 +1,99 @@
+\section{Contraintes}
+
+Les contraintes d'intégrité et les contraintes externes sont des conditions essentielles imposées sur les données afin de garantir leur cohérence, leur validité et leur intégrité au sein de la base de données CineNet. Voici les principales catégories de contraintes appliquées dans ce projet, avec des exemples de code SQL pour justifier leur utilisation :
+
+\subsection{Contraintes de Cardinalité}
+
+Les contraintes de cardinalité définissent le nombre minimal et maximal d'occurrences d'une entité pouvant être associée à une occurrence d'une autre entité. Elles permettent de préciser les relations entre les entités et de garantir la cohérence des associations.
+
+\begin{itemize}
+    \item **Amitié (Friendship)** : Une amitié entre deux utilisateurs doit être unique, et un utilisateur ne peut pas être ami avec lui-même. Cela garantit que chaque relation d'amitié est bidirectionnelle et unique.
+    \begin{lstlisting}
+    CREATE TABLE Friendship (
+        initiator_id integer NOT NULL REFERENCES Users(id),
+        recipient_id integer NOT NULL REFERENCES Users(id) CONSTRAINT friendship_check CHECK (initiator_id != recipient_id),
+        date timestamp NOT NULL CONSTRAINT friendship_date_check CHECK (date <= CURRENT_TIMESTAMP),
+        PRIMARY KEY (initiator_id, recipient_id)
+    );
+    \end{lstlisting}
+    \item **Participation à un événement (Participation)** : Un utilisateur peut participer ou être intéressé par plusieurs événements, et chaque événement peut avoir plusieurs participants. Cela permet de modéliser des interactions multiples entre utilisateurs et événements.
+    \begin{lstlisting}
+    CREATE TABLE Participation (
+        user_id integer NOT NULL REFERENCES Users(id),
+        event_id integer NOT NULL REFERENCES Events(id),
+        type_participation varchar(255) NOT NULL CONSTRAINT check_type_participation CHECK (type_participation IN ('Interested', 'Participating')),
+        PRIMARY KEY (user_id, event_id)
+    );
+    \end{lstlisting}
+\end{itemize}
+
+\subsection{Dépendance Fonctionnelle}
+
+Les contraintes de dépendance fonctionnelle assurent que certaines colonnes d'une table dépendent uniquement d'autres colonnes de la même table. Elles permettent de maintenir la cohérence interne des tables et d'éviter les anomalies de mise à jour.
+
+\begin{itemize}
+    \item **Genres de films (MovieGenres)** : Chaque genre de film doit être unique, et les sous-genres dépendent des genres principaux. Cela garantit une hiérarchie claire des genres et sous-genres de films.
+    \begin{lstlisting}
+    CREATE TABLE Genres (
+        id integer PRIMARY KEY,
+        name varchar(255) UNIQUE NOT NULL,
+        parent_genre_id integer REFERENCES Genres(id)
+    );
+    \end{lstlisting}
+\end{itemize}
+
+\subsection{Contraintes de Clé Étrangère}
+
+Les contraintes de clé étrangère garantissent que les valeurs d'une colonne dans une table existent dans une colonne de la table référencée, assurant ainsi l'intégrité référentielle entre les tables.
+
+\begin{itemize}
+    \item **Localisation des utilisateurs (UserLocations)** : Chaque utilisateur doit avoir une ville de résidence qui doit exister dans la table des villes. Cette contrainte lie chaque utilisateur à une localisation valide.
+    \begin{lstlisting}
+    CREATE TABLE UserLocations (
+        user_id integer NOT NULL REFERENCES Users(id),
+        city_code integer NOT NULL REFERENCES Cities(city_code),
+        PRIMARY KEY (user_id, city_code)
+    );
+    \end{lstlisting}
+    \item **Organisation des événements (Events)** : Chaque événement doit être organisé par un utilisateur existant et doit se dérouler dans une ville existante. Cela garantit que les événements sont toujours associés à des utilisateurs et des lieux valides.
+    \begin{lstlisting}
+    CREATE TABLE Events (
+        id integer PRIMARY KEY,
+        name varchar(255) NOT NULL,
+        date timestamp NOT NULL,
+        city_code integer NOT NULL REFERENCES Cities(city_code),
+        organizer_id integer NOT NULL REFERENCES Users(id),
+        capacity integer NOT NULL CONSTRAINT check_capacity CHECK (capacity > 0),
+        ticket_price numeric NOT NULL CONSTRAINT check_ticket_price CHECK (ticket_price >= 0)
+    );
+    \end{lstlisting}
+\end{itemize}
+
+\subsection{Contraintes de Validité}
+
+Les contraintes de validité assurent que les données respectent certains critères définis pour maintenir leur exactitude et leur cohérence.
+
+\begin{itemize}
+    \item **Événements (Events)** : Les capacités des événements doivent être supérieures à zéro et les prix des billets ne peuvent pas être négatifs. Cela garantit que les informations sur les événements sont logiques et réalistes.
+    \begin{lstlisting}
+    CREATE TABLE Events (
+        id integer PRIMARY KEY,
+        name varchar(255) NOT NULL,
+        capacity integer NOT NULL CONSTRAINT check_capacity CHECK (capacity > 0),
+        ticket_price numeric NOT NULL CONSTRAINT check_ticket_price CHECK (ticket_price >= 0)
+    );
+    \end{lstlisting}
+    \item **Réactions aux publications (Reactions)** : Les utilisateurs peuvent réagir aux publications avec des emojis spécifiques représentant différentes appréciations. Cela permet de standardiser les réactions possibles aux publications.
+    \begin{lstlisting}
+    CREATE TABLE Reactions (
+        user_id integer NOT NULL REFERENCES Users(id),
+        post_id integer NOT NULL REFERENCES Posts(id),
+        emoji varchar(10) NOT NULL,
+        PRIMARY KEY (user_id, post_id, emoji)
+    );
+    \end{lstlisting}
+\end{itemize}
+
+\section*{Conclusion}
+
+Les contraintes d'intégrité et externes sont cruciales pour la qualité des données de CineNet, assurant leur cohérence et validité.
