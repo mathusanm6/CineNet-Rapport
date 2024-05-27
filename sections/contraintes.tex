@@ -7,7 +7,7 @@ Les contraintes d'intégrité et les contraintes externes sont des conditions es
 Les contraintes de cardinalité définissent le nombre minimal et maximal d'occurrences d'une entité pouvant être associée à une occurrence d'une autre entité. Elles permettent de préciser les relations entre les entités et de garantir la cohérence des associations.
 
 \begin{itemize}
-    \item **Amitié (Friendship)** : Une amitié entre deux utilisateurs doit être unique, et un utilisateur ne peut pas être ami avec lui-même. Cela garantit que chaque relation d'amitié est bidirectionnelle et unique.
+    \item \textbf{Amitié (Friendship)} : Une amitié entre deux utilisateurs doit être unique, et un utilisateur ne peut pas être ami avec lui-même. Cela garantit que chaque relation d'amitié est bidirectionnelle et unique.
     \begin{lstlisting}
     CREATE TABLE Friendship (
         initiator_id integer NOT NULL REFERENCES Users(id),
@@ -16,7 +16,7 @@ Les contraintes de cardinalité définissent le nombre minimal et maximal d'occu
         PRIMARY KEY (initiator_id, recipient_id)
     );
     \end{lstlisting}
-    \item **Participation à un événement (Participation)** : Un utilisateur peut participer ou être intéressé par plusieurs événements, et chaque événement peut avoir plusieurs participants. Cela permet de modéliser des interactions multiples entre utilisateurs et événements.
+    \item \textbf{Participation à un événement (Participation)} : Un utilisateur peut participer ou être intéressé par plusieurs événements, et chaque événement peut avoir plusieurs participants. Cela permet de modéliser des interactions multiples entre utilisateurs et événements.
     \begin{lstlisting}
     CREATE TABLE Participation (
         user_id integer NOT NULL REFERENCES Users(id),
@@ -32,7 +32,7 @@ Les contraintes de cardinalité définissent le nombre minimal et maximal d'occu
 Les contraintes de dépendance fonctionnelle assurent que certaines colonnes d'une table dépendent uniquement d'autres colonnes de la même table. Elles permettent de maintenir la cohérence interne des tables et d'éviter les anomalies de mise à jour.
 
 \begin{itemize}
-    \item **Genres de films (MovieGenres)** : Chaque genre de film doit être unique, et les sous-genres dépendent des genres principaux. Cela garantit une hiérarchie claire des genres et sous-genres de films.
+    \item \textbf{Genres de films (MovieGenres)} : Chaque genre de film doit être unique, et les sous-genres dépendent des genres principaux. Cela garantit une hiérarchie claire des genres et sous-genres de films.
     \begin{lstlisting}
     CREATE TABLE Genres (
         id integer PRIMARY KEY,
@@ -47,7 +47,7 @@ Les contraintes de dépendance fonctionnelle assurent que certaines colonnes d'u
 Les contraintes de clé étrangère garantissent que les valeurs d'une colonne dans une table existent dans une colonne de la table référencée, assurant ainsi l'intégrité référentielle entre les tables.
 
 \begin{itemize}
-    \item **Localisation des utilisateurs (UserLocations)** : Chaque utilisateur doit avoir une ville de résidence qui doit exister dans la table des villes. Cette contrainte lie chaque utilisateur à une localisation valide.
+    \item \textbf{Localisation des utilisateurs (UserLocations)} : Chaque utilisateur doit avoir une ville de résidence qui doit exister dans la table des villes. Cette contrainte lie chaque utilisateur à une localisation valide.
     \begin{lstlisting}
     CREATE TABLE UserLocations (
         user_id integer NOT NULL REFERENCES Users(id),
@@ -55,7 +55,7 @@ Les contraintes de clé étrangère garantissent que les valeurs d'une colonne d
         PRIMARY KEY (user_id, city_code)
     );
     \end{lstlisting}
-    \item **Organisation des événements (Events)** : Chaque événement doit être organisé par un utilisateur existant et doit se dérouler dans une ville existante. Cela garantit que les événements sont toujours associés à des utilisateurs et des lieux valides.
+    \item \textbf{Organisation des événements (Events)} : Chaque événement doit être organisé par un utilisateur existant et doit se dérouler dans une ville existante. Cela garantit que les événements sont toujours associés à des utilisateurs et des lieux valides.
     \begin{lstlisting}
     CREATE TABLE Events (
         id integer PRIMARY KEY,
@@ -74,7 +74,7 @@ Les contraintes de clé étrangère garantissent que les valeurs d'une colonne d
 Les contraintes de validité assurent que les données respectent certains critères définis pour maintenir leur exactitude et leur cohérence.
 
 \begin{itemize}
-    \item **Événements (Events)** : Les capacités des événements doivent être supérieures à zéro et les prix des billets ne peuvent pas être négatifs. Cela garantit que les informations sur les événements sont logiques et réalistes.
+    \item \textbf{Événements (Events)} : Les capacités des événements doivent être supérieures à zéro et les prix des billets ne peuvent pas être négatifs. Cela garantit que les informations sur les événements sont logiques et réalistes.
     \begin{lstlisting}
     CREATE TABLE Events (
         id integer PRIMARY KEY,
@@ -83,7 +83,7 @@ Les contraintes de validité assurent que les données respectent certains crit�
         ticket_price numeric NOT NULL CONSTRAINT check_ticket_price CHECK (ticket_price >= 0)
     );
     \end{lstlisting}
-    \item **Réactions aux publications (Reactions)** : Les utilisateurs peuvent réagir aux publications avec des emojis spécifiques représentant différentes appréciations. Cela permet de standardiser les réactions possibles aux publications.
+    \item \textbf{Réactions aux publications (Reactions)} : Les utilisateurs peuvent réagir aux publications avec des emojis spécifiques représentant différentes appréciations. Cela permet de standardiser les réactions possibles aux publications.
     \begin{lstlisting}
     CREATE TABLE Reactions (
         user_id integer NOT NULL REFERENCES Users(id),
